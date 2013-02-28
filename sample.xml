@@ -1,0 +1,37 @@
+<chart>
+
+   <chart_data>
+      <row>
+         <null/>
+         <string>4-Mar</string>
+         <string>5-Mar</string>
+         <string>6-Mar</string>
+         <string>7-Mar</string>
+         <string>8-Mar</string>
+      </row>
+      <row>
+         <string>Perfect line</string>
+         <number>100</number>
+         <number>75</number>
+         <number>50</number>
+         <number>25</number>
+         <number>0</number>
+      </row>
+      <row>
+         <string>Progress</string>
+         <number>100</number>
+         <number>90</number>
+         <number>45</number>
+         <number>10</number>
+         <number>0</number>
+      </row>
+
+   </chart_data>
+
+   <chart_type>
+      <string>line</string>
+      <string>line</string>
+      <string>column</string>
+   </chart_type>
+
+</chart>
