@@ -6,7 +6,21 @@ google.setOnLoadCallback(drawChart);
 function drawChart() {
    data = new google.visualization.DataTable();
    //getDataFromPHP();
-   getDataFromXml();
+   getDataFromJiraXml();
+}
+
+
+function getDataFromJiraXml() {
+    xmlHttp=GetXmlHttpObject()
+    if (xmlHttp==null)
+    {
+     alert ("Browser does not support HTTP Request")
+     return
+    }
+    var url="http://myszin.ugu.pl/sample.xml";
+    xmlHttp.onreadystatechange = stateChanged;
+    xmlHttp.open("GET", url, true);
+    xmlHttp.send(null);
 }
 
 function getDataFromXml() {
@@ -24,7 +38,7 @@ function getDataFromXml() {
 }
 
 function getDataFromPHP(){
-   xmlHttp=GetXmlHttpObject()
+/*   xmlHttp=GetXmlHttpObject()
    if (xmlHttp==null)
    {
      alert ("Browser does not support HTTP Request")
@@ -33,18 +47,19 @@ function getDataFromPHP(){
    var url="getWorldCO2Data.php";
    xmlHttp.onreadystatechange=stateChanged ;
    xmlHttp.open("GET",url,true);
-   xmlHttp.send(null);
+   xmlHttp.send(null);*/
 }
 
 function stateChanged()
 {
-   if (xmlHttp.readyState==4 || xmlHttp.readyState=="complete")
+   if (xmlHttp.readyState==4 && xmlHttp.status==200)
    {
      var xmlDoc = xmlHttp.responseXML;
 
      //retrieve the content of the responseNode
-     var chartSettings = xmlDoc.getElementsByTagName("columnlist");
-
+     issueCnt = xmlDoc.getElementsByTagName("string")[0];
+     alert("issues = " + issueCnt.textContent);
+/*
      var numColumns = chartSettings[0].childNodes.length;
      var data_types = chartSettings[0].getElementsByTagName("data_type");
      var data_labels = chartSettings[0].getElementsByTagName("label");
@@ -73,7 +88,7 @@ function stateChanged()
      }
      var chart = new     google.visualization.LineChart(document.getElementById('chart_div'));
      chart.draw(data, {width: 500, height: 300, title: 'Company Performance'});
-
+*/
    }
 }
 
