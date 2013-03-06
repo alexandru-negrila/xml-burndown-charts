@@ -1,5 +1,7 @@
 var xmlHttp;
 var data;
+var swLevel = "NU00.01";
+
 google.load("visualization", "1", {packages:["corechart"]});
 google.setOnLoadCallback(drawChart);
 
@@ -17,24 +19,34 @@ function getDataFromJiraXml() {
      alert ("Browser does not support HTTP Request")
      return
     }
-    var url="http://myszin.ugu.pl/sample.xml";
+    //var url="http://localhost/xml-burndown-charts/jira_resp_" + swLevel +".xml";
+    var url="http://myszin.ugu.pl/jira_resp_" + swLevel +".xml";
+
     xmlHttp.onreadystatechange = stateChanged;
     xmlHttp.open("GET", url, true);
     xmlHttp.send(null);
 }
 
-function getDataFromXml() {
-    data.addColumn('string', 'Day');
-    data.addColumn('number', 'Perf Line');
-    data.addColumn('number', 'Work Remaining');
-    data.addRows([  ['4-Mar', 100, 100],
-                    ['5-Mar',  75,  90],
-                    ['6-Mar',  50,  45],
-                    ['7-Mar',  25,  10],
-                    ['8-Mar',   0,   2]
-                    ]);
-    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-    chart.draw(data, {width: 500, height: 300, title: 'Company Performance'});
+
+
+function stateChanged()
+{
+    if (xmlHttp.readyState==4 && xmlHttp.status==200)
+    {
+        var xmlDoc = xmlHttp.responseXML;
+
+        txt = "<h2>Chart generated for SW Level: " + swLevel + "</h2>";
+        document.getElementById("chart_head").innerHTML = txt;
+
+        //retrieve the content of the responseNode
+        issueCnt = xmlDoc.getElementsByTagName("issue")[0].getAttribute("total");
+        document.getElementById("chart_div").innerHTML = "Number of issues assinged to " + swLevel + " = " + issueCnt;
+        
+        /*
+        var chart = new     google.visualization.LineChart(document.getElementById('chart_div'));
+        chart.draw(data, {width: 500, height: 300, title: 'Company Performance'});
+        */
+    }
 }
 
 function getDataFromPHP(){
@@ -48,48 +60,6 @@ function getDataFromPHP(){
    xmlHttp.onreadystatechange=stateChanged ;
    xmlHttp.open("GET",url,true);
    xmlHttp.send(null);*/
-}
-
-function stateChanged()
-{
-   if (xmlHttp.readyState==4 && xmlHttp.status==200)
-   {
-     var xmlDoc = xmlHttp.responseXML;
-
-     //retrieve the content of the responseNode
-     issueCnt = xmlDoc.getElementsByTagName("string")[0];
-     alert("issues = " + issueCnt.textContent);
-/*
-     var numColumns = chartSettings[0].childNodes.length;
-     var data_types = chartSettings[0].getElementsByTagName("data_type");
-     var data_labels = chartSettings[0].getElementsByTagName("label");
-
-     for (ii=0; ii<numColumns; ii++ ){
-       data.addColumn(data_types[ii].textContent, data_labels[ii].textContent);
-     }
-
-     // Now get the data out of the returned XML set...
-     var chartData = xmlDoc.getElementsByTagName("chart_data_set");
-     var numRows = chartData[0].childNodes.length;
-     data.addRows(numRows);
-     var dataSet = chartData[0].getElementsByTagName("data_row");
-
-     for (ii=0;ii<numRows;ii++){
-       var nextRow = dataSet[ii].getElementsByTagName("set_element");
-       var tempval = nextRow[0].textContent ;
-       var strlength = tempval.length;
-       data.setValue(ii, 0, tempval);
-
-       for (jj=1;jj<numColumns;jj++){
-         var tempval = nextRow[jj].textContent ;
-         var strlength = tempval.length;
-         data.setValue(ii, jj, parseFloat(tempval));
-       }
-     }
-     var chart = new     google.visualization.LineChart(document.getElementById('chart_div'));
-     chart.draw(data, {width: 500, height: 300, title: 'Company Performance'});
-*/
-   }
 }
 
 function GetXmlHttpObject(){
@@ -108,4 +78,18 @@ function GetXmlHttpObject(){
        }
      }
    return xmlHttp;
+}
+
+function getDataFromXml() {
+    data.addColumn('string', 'Day');
+    data.addColumn('number', 'Perf Line');
+    data.addColumn('number', 'Work Remaining');
+    data.addRows([  ['4-Mar', 100, 100],
+                    ['5-Mar',  75,  90],
+                    ['6-Mar',  50,  45],
+                    ['7-Mar',  25,  10],
+                    ['8-Mar',   0,   2]
+                    ]);
+    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+    chart.draw(data, {width: 500, height: 300, title: 'Company Performance'});
 }
