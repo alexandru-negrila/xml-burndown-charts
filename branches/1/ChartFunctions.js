@@ -37,7 +37,7 @@ function stateChanged()
         txt = "<h2>Chart generated for SW Level: " + swLevel + "</h2>";
         document.getElementById("chart_head").innerHTML = txt;
 
-        //retrieve the content of the responseNode
+        //retrieve the content of the response
         issueCnt = xmlDoc.getElementsByTagName("issue")[0].getAttribute("total");
         document.getElementById("chart_div").innerHTML = "Number of issues assinged to " + swLevel + " = " + issueCnt;
         
