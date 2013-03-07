@@ -2,12 +2,11 @@ var xmlHttp;
 var data;
 var swLevel = "NU00.01";
 
-google.load("visualization", "1", {packages:["corechart"]});
+google.load("visualization", "1.0", {packages:["corechart"]});
 google.setOnLoadCallback(drawChart);
 
 function drawChart() {
    data = new google.visualization.DataTable();
-   //getDataFromPHP();
    getDataFromJiraXml();
 }
 
@@ -16,11 +15,11 @@ function getDataFromJiraXml() {
     xmlHttp=GetXmlHttpObject()
     if (xmlHttp==null)
     {
-     alert ("Browser does not support HTTP Request")
-     return
+        alert ("Browser does not support HTTP Request")
+        return
     }
-    //var url="http://localhost/xml-burndown-charts/jira_resp_" + swLevel +".xml";
-    var url="http://myszin.ugu.pl/jira_resp_" + swLevel +".xml";
+
+    url = document.URL + "jira_resp_" + swLevel +".xml";
 
     xmlHttp.onreadystatechange = stateChanged;
     xmlHttp.open("GET", url, true);
@@ -47,19 +46,6 @@ function stateChanged()
         chart.draw(data, {width: 500, height: 300, title: 'Company Performance'});
         */
     }
-}
-
-function getDataFromPHP(){
-/*   xmlHttp=GetXmlHttpObject()
-   if (xmlHttp==null)
-   {
-     alert ("Browser does not support HTTP Request")
-     return
-   }
-   var url="getWorldCO2Data.php";
-   xmlHttp.onreadystatechange=stateChanged ;
-   xmlHttp.open("GET",url,true);
-   xmlHttp.send(null);*/
 }
 
 function GetXmlHttpObject(){
