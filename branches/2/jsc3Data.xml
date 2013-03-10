@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<JSChart>
+    <dataset type="line" id="PerfLine">
+        <data unit="11-Mar" value="100"/>
+        <data unit="12-Mar" value="75"/>
+        <data unit="13-Mar" value="50"/>
+        <data unit="14-Mar" value="25"/>
+        <data unit="15-Mar" value="0"/>
+    </dataset>
+    <dataset type="line" id="WorkRemain">
+        <data unit="11-Mar" value="100"/>
+        <data unit="12-Mar" value="90"/>
+        <data unit="13-Mar" value="65"/>
+        <data unit="14-Mar" value="20"/>
+        <!--data unit="15-Mar" value="4"/-->
+    </dataset>
+    <optionset>
+        <option set="setTitle" value="'Employee performance from xml'" />
+        <option set="setTitleColor" value="'#0000FF'" />
+        <option set="setTitleFontSize" value="12" />
+        <option set="setAxisNameX" value="'Date'" />
+        <option set="setAxisNameY" value="'Progress [%]'" />
+        <option set="setAxisColor" value="'#8420CA'" />
+        <option set="setAxisValuesColor" value="'#8420CA'" />
+        <option set="setAxisValuesNumberX" value="5" />
+        <option set="setLineColor" value="'#FF0000', 'PerfLine'" />
+        <option set="setLineColor" value="'#00AA80', 'WorkRemain'" />
+        <option set="setLegendShow" value="true"/>
+        <option set="setLegendForLine" value="'PerfLine', 'Perfect line'" />
+        <option set="setLegendForLine" value="'WorkRemain', 'Work remaining'" />
+    </optionset>
+</JSChart>
