@@ -35,12 +35,13 @@ function stateChanged()
         var xmlDoc = xmlHttp.responseXML;
 
         txt = "<h2>Chart generated for SW Level: " + swLevel + "</h2>";
-        document.getElementById("chart_head").innerHTML = txt;
+        document.getElementById("header").innerHTML = txt;
 
         //retrieve the content of the response
         issueCnt = xmlDoc.getElementsByTagName("issue")[0].getAttribute("total");
-        document.getElementById("chart_div").innerHTML = "Number of issues assinged to " + swLevel + " = " + issueCnt;
-        
+        document.getElementById("chart_head").innerHTML = "Number of issues assinged to " + swLevel + " = " + issueCnt;
+
+        setChartData();
         /*
         var chart = new     google.visualization.LineChart(document.getElementById('chart_div'));
         chart.draw(data, {width: 500, height: 300, title: 'Company Performance'});
@@ -66,7 +67,7 @@ function GetXmlHttpObject(){
    return xmlHttp;
 }
 
-function getDataFromXml() {
+function setChartData() {
     data.addColumn('string', 'Day');
     data.addColumn('number', 'Perf Line');
     data.addColumn('number', 'Work Remaining');
@@ -77,5 +78,5 @@ function getDataFromXml() {
                     ['8-Mar',   0,   2]
                     ]);
     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-    chart.draw(data, {width: 500, height: 300, title: 'Company Performance'});
+    chart.draw(data, {width: 500, height: 300, title: 'Company Performance', legend: 'bottom'});
 }
