@@ -20,7 +20,7 @@ function getDataFromJiraXml() {
     }
 
     url = document.URL + dataFile;
-    alert(url)
+    //alert(url)
 
     xmlHttp.onreadystatechange = stateChanged;
     xmlHttp.open("GET", url, true);
@@ -46,32 +46,57 @@ function stateChanged()
         //set data with days of sprint
         var sprintDur = 0;   // length of sprint in days (w/o weekends)
         var sprintDates = new Array();
-        xmlDomDates = xmlDoc.getElementsByTagName("row")[0];
-        for (var i = 0; i < xmlDomDates.childNodes.length; i++)
+        xmlNode = xmlDoc.getElementsByTagName("row")[0];
+        for (var i = 0; i < xmlNode.childNodes.length; i++)
         {
             // dates in xml input are embedded in <string> tags
             // node type check is for browsers other than IE -> http://www.w3schools.com/dom/dom_mozilla_vs_ie.asp
-            if ((xmlDomDates.childNodes[i].nodeName == "string") && (xmlDomDates.childNodes[i].nodeType == 1))
+            if ((xmlNode.childNodes[i].nodeName == "string") && (xmlNode.childNodes[i].nodeType == 1))
             {
-                sprintDates[sprintDates.length] = xmlDomDates.childNodes[i].childNodes[0].nodeValue;
+                sprintDates[sprintDates.length] = xmlNode.childNodes[i].childNodes[0].nodeValue;
                 data.addRow();
-                data.setValue(sprintDur, 0, xmlDomDates.childNodes[i].childNodes[0].nodeValue);
+                data.setValue(sprintDur, 0, xmlNode.childNodes[i].childNodes[0].nodeValue);
                 sprintDur++;
             }
         }
-        //do not count <null/> tag which is required by XML/SWF API
-        sprintDur--;
-        alert(sprintDates.join());
+        //alert(sprintDates.join());
+
+        //set data with perfect line values
+        xmlNode = xmlDoc.getElementsByTagName("row")[1];
+        //var sprintPerf = new Array();
+        for (i = 0, sprVals = 0; i < xmlNode.childNodes.length; i++)
+        {
+            if ((xmlNode.childNodes[i].nodeName == "number") && (xmlNode.childNodes[i].nodeType == 1))
+            {
+                //sprintPerf[sprintPerf.length] = parseInt(xmlNode.childNodes[i].childNodes[0].nodeValue);
+                data.setValue(sprVals, 1, parseInt(xmlNode.childNodes[i].childNodes[0].nodeValue));
+                sprVals++;
+            }
+        }
 
         //set data with work remaining values
-        
-        //set data with perfect line values
+        xmlNode = xmlDoc.getElementsByTagName("row")[2];
+        var sprintProgress = new Array();
+        for (i = 0, sprVals = 0; i < xmlNode.childNodes.length; i++)
+        {
+            if ((xmlNode.childNodes[i].nodeName == "number") && (xmlNode.childNodes[i].nodeType == 1))
+            {
 
+                if (typeof (xmlNode.childNodes[i].childNodes[0]) != "undefined")
+                {
+                    curVal = parseInt(xmlNode.childNodes[i].childNodes[0].nodeValue);
+                    data.setValue(sprVals, 2, curVal);
+                    sprVals++;
+                }
+                //sprintProgress[sprintProgress.length] = xmlNode.childNodes[i].childNodes[0].nodeValue;
+
+            }
+        }
         //setChartData();
-        /*
+
         var chart = new     google.visualization.LineChart(document.getElementById('chart_div'));
         chart.draw(data, {width: 500, height: 300, title: 'Company Performance'});
-        */
+
     }
 }
 
