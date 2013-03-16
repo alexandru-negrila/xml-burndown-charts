@@ -1,5 +1,5 @@
+<?xml version="1.0" ?>
 <chart>
-
    <chart_data>
       <row>
          <null/>
@@ -21,17 +21,14 @@
          <string>Progress</string>
          <number>100</number>
          <number>90</number>
-         <number>45</number>
-         <number>10</number>
-         <number>0</number>
+         <number>35</number>
+         <number></number>
+         <number></number>
       </row>
-
    </chart_data>
-
    <chart_type>
       <string>line</string>
       <string>line</string>
       <string>column</string>
    </chart_type>
-
 </chart>

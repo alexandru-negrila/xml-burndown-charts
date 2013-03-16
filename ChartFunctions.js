@@ -1,12 +1,12 @@
 var xmlHttp;
 var data;
 var swLevel = "NU00.01";
+var dataFile = "sample.xml";
 
 google.load("visualization", "1.0", {packages:["corechart"]});
 google.setOnLoadCallback(drawChart);
 
 function drawChart() {
-   data = new google.visualization.DataTable();
    getDataFromJiraXml();
 }
 
@@ -19,7 +19,8 @@ function getDataFromJiraXml() {
         return
     }
 
-    url = document.URL + "jira_resp_" + swLevel +".xml";
+    url = document.URL + dataFile;
+    alert(url)
 
     xmlHttp.onreadystatechange = stateChanged;
     xmlHttp.open("GET", url, true);
@@ -36,12 +37,37 @@ function stateChanged()
 
         txt = "<h2>Chart generated for SW Level: " + swLevel + "</h2>";
         document.getElementById("header").innerHTML = txt;
+        
+        data = new google.visualization.DataTable();
+        data.addColumn('string', 'Day');
+        data.addColumn('number', 'Perf Line');
+        data.addColumn('number', 'Work Remaining');
 
-        //retrieve the content of the response
-        issueCnt = xmlDoc.getElementsByTagName("issue")[0].getAttribute("total");
-        document.getElementById("chart_head").innerHTML = "Number of issues assinged to " + swLevel + " = " + issueCnt;
+        //set data with days of sprint
+        var sprintDur = 0;   // length of sprint in days (w/o weekends)
+        var sprintDates = new Array();
+        xmlDomDates = xmlDoc.getElementsByTagName("row")[0];
+        for (var i = 0; i < xmlDomDates.childNodes.length; i++)
+        {
+            // dates in xml input are embedded in <string> tags
+            // node type check is for browsers other than IE -> http://www.w3schools.com/dom/dom_mozilla_vs_ie.asp
+            if ((xmlDomDates.childNodes[i].nodeName == "string") && (xmlDomDates.childNodes[i].nodeType == 1))
+            {
+                sprintDates[sprintDates.length] = xmlDomDates.childNodes[i].childNodes[0].nodeValue;
+                data.addRow();
+                data.setValue(sprintDur, 0, xmlDomDates.childNodes[i].childNodes[0].nodeValue);
+                sprintDur++;
+            }
+        }
+        //do not count <null/> tag which is required by XML/SWF API
+        sprintDur--;
+        alert(sprintDates.join());
 
-        setChartData();
+        //set data with work remaining values
+        
+        //set data with perfect line values
+
+        //setChartData();
         /*
         var chart = new     google.visualization.LineChart(document.getElementById('chart_div'));
         chart.draw(data, {width: 500, height: 300, title: 'Company Performance'});
