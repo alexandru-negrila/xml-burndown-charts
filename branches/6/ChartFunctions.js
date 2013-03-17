@@ -91,7 +91,10 @@ function stateChanged()
         }
 
         var chart = new     google.visualization.LineChart(document.getElementById('chart_div'));
-        chart.draw(data, {width: 500, height: 400, title: 'BurnDown chart for '+ swLevel, legend: 'bottom'});
+        chart.draw(data, {width: '100%', height: 300, 
+                          title: 'BurnDown chart for '+ swLevel, 
+                          legend: 'bottom',
+                          chartArea: {left:38,top:30, width:"100%",height:"70%"}});
     }
 }
 
