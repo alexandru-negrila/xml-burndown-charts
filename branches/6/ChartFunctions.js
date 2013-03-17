@@ -63,12 +63,11 @@ function stateChanged()
 
         //set data with perfect line values
         xmlNode = xmlDoc.getElementsByTagName("row")[1];
-        //var sprintPerf = new Array();
         for (i = 0, sprVals = 0; i < xmlNode.childNodes.length; i++)
         {
             if ((xmlNode.childNodes[i].nodeName == "number") && (xmlNode.childNodes[i].nodeType == 1))
             {
-                //sprintPerf[sprintPerf.length] = parseInt(xmlNode.childNodes[i].childNodes[0].nodeValue);
+                //perfect line has always all values
                 data.setValue(sprVals, 1, parseInt(xmlNode.childNodes[i].childNodes[0].nodeValue));
                 sprVals++;
             }
@@ -76,27 +75,23 @@ function stateChanged()
 
         //set data with work remaining values
         xmlNode = xmlDoc.getElementsByTagName("row")[2];
-        var sprintProgress = new Array();
         for (i = 0, sprVals = 0; i < xmlNode.childNodes.length; i++)
         {
             if ((xmlNode.childNodes[i].nodeName == "number") && (xmlNode.childNodes[i].nodeType == 1))
             {
-
-                if (typeof (xmlNode.childNodes[i].childNodes[0]) != "undefined")
+                //during sprint work remaining nodes may not contain values
+                if (xmlNode.childNodes[i].childNodes[0])
                 {
-                    curVal = parseInt(xmlNode.childNodes[i].childNodes[0].nodeValue);
+                    //process only those which contain numbers
+                    var curVal = Number(xmlNode.childNodes[i].childNodes[0].nodeValue);
                     data.setValue(sprVals, 2, curVal);
                     sprVals++;
                 }
-                //sprintProgress[sprintProgress.length] = xmlNode.childNodes[i].childNodes[0].nodeValue;
-
             }
         }
-        //setChartData();
 
         var chart = new     google.visualization.LineChart(document.getElementById('chart_div'));
-        chart.draw(data, {width: 500, height: 300, title: 'Company Performance'});
-
+        chart.draw(data, {width: 500, height: 400, title: 'BurnDown chart for '+ swLevel, legend: 'bottom'});
     }
 }
 
