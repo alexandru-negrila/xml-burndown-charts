@@ -33,6 +33,7 @@ function stateChanged()
 {
     if (xmlHttp.readyState==4 && xmlHttp.status==200)
     {
+        var startTime = new Date();
         var xmlDoc = xmlHttp.responseXML;
 
         txt = "<h2>Chart generated for SW Level: " + swLevel + "</h2>";
@@ -95,6 +96,9 @@ function stateChanged()
                           title: 'BurnDown chart for '+ swLevel, 
                           legend: 'bottom',
                           chartArea: {left:38,top:30, width:"100%",height:"70%"}});
+
+        var finishTime = new Date();
+        document.getElementById("footer").innerHTML = "Generated in " + (finishTime.valueOf() - startTime.valueOf()) + " ms.";
     }
 }
 
