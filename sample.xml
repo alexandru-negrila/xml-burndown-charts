@@ -59,11 +59,20 @@
          <number>129</number>
          <number>111</number>
          <number>90</number>
+         <number></number>
+         <number></number>
+         <number></number>
+         <number></number>
+         <number></number>
+         <number></number>
+         <number></number>
+         <number></number>
+         <number></number>
+         <number></number>
       </row>
    </chart_data>
    <chart_type>
       <string>line</string>
       <string>line</string>
-      <string>column</string>
    </chart_type>
 </chart>
