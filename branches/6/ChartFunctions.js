@@ -46,7 +46,6 @@ function stateChanged()
 
         //set data with days of sprint
         var sprintDur = 0;   // length of sprint in days (w/o weekends)
-        var sprintDates = new Array();
         xmlNode = xmlDoc.getElementsByTagName("row")[0];
         for (var i = 0; i < xmlNode.childNodes.length; i++)
         {
@@ -54,13 +53,11 @@ function stateChanged()
             // node type check is for browsers other than IE -> http://www.w3schools.com/dom/dom_mozilla_vs_ie.asp
             if ((xmlNode.childNodes[i].nodeName == "string") && (xmlNode.childNodes[i].nodeType == 1))
             {
-                sprintDates[sprintDates.length] = xmlNode.childNodes[i].childNodes[0].nodeValue;
                 data.addRow();
                 data.setValue(sprintDur, 0, xmlNode.childNodes[i].childNodes[0].nodeValue);
                 sprintDur++;
             }
         }
-        //alert(sprintDates.join());
 
         //set data with perfect line values
         xmlNode = xmlDoc.getElementsByTagName("row")[1];
@@ -69,7 +66,7 @@ function stateChanged()
             if ((xmlNode.childNodes[i].nodeName == "number") && (xmlNode.childNodes[i].nodeType == 1))
             {
                 //perfect line has always all values
-                data.setValue(sprVals, 1, parseInt(xmlNode.childNodes[i].childNodes[0].nodeValue));
+                data.setValue(sprVals, 1, Number(xmlNode.childNodes[i].childNodes[0].nodeValue));
                 sprVals++;
             }
         }
@@ -92,10 +89,13 @@ function stateChanged()
         }
 
         var chart = new     google.visualization.LineChart(document.getElementById('chart_div'));
-        chart.draw(data, {width: '100%', height: 300, 
-                          title: 'BurnDown chart for '+ swLevel, 
+        chart.draw(data, {width: '100%', height: 300,
+                          title: 'BurnDown chart for '+ swLevel,
                           legend: 'bottom',
-                          chartArea: {left:38,top:30, width:"100%",height:"70%"}});
+                          pointSize: 4,
+                          chartArea: {left:30, top:30, width:"100%", height:"70%"},
+                          hAxis: {textStyle: {color: 'blue', fontSize: 14}, minTextSpacing: 3}
+                         });
 
         var finishTime = new Date();
         document.getElementById("footer").innerHTML = "Generated in " + (finishTime.valueOf() - startTime.valueOf()) + " ms.";
