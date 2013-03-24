@@ -2,6 +2,9 @@
 # shall be executed on regular time basis (every day, week, etc)
 # XML report is stored in file and used for creation/update of xml-data file
 # for burn down chart
+require 'rubygems'
+require 'nokogiri'   
+
 DEBUG = 1
 
 # create HTTP request
@@ -16,14 +19,11 @@ else
 end
 
 dir = File.dirname(__FILE__)
-in_file = File.new(dir+jira_resp_dir+jira_resp_file, "r")
+#in_file = File.new(dir+jira_resp_dir+jira_resp_file, "r")
+in_file = Nokogiri::HTML(open(dir+jira_resp_dir+jira_resp_file))
 
-until in_file.eof
-    i = in_file.readlines
-    i.each do
-        |line|
-        puts line
-    end
-end
+puts in_file.class
+puts in_file.css("title").text
+in_file.xpath("//comment()").each {|comment| puts comment}
 
 __END__
