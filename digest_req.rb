@@ -20,10 +20,13 @@ end
 
 dir = File.dirname(__FILE__)
 #in_file = File.new(dir+jira_resp_dir+jira_resp_file, "r")
-in_file = Nokogiri::HTML(open(dir+jira_resp_dir+jira_resp_file))
+in_file = Nokogiri::XML(open(dir+jira_resp_dir+jira_resp_file))
 
-puts in_file.class
 puts in_file.css("title").text
-in_file.xpath("//comment()").each {|comment| puts comment}
+commts = []
+in_file.xpath("//comment()").each {|comment| commts << comment}
+
+print "Found #{commts.length} comment node(s).\n"
+puts commts[-1]
 
 __END__
