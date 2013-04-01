@@ -46,4 +46,10 @@ else
     puts "Incorrect issue count or nodes!"
 end
 
+if (0 == jira_sup_check_build_info(commts[0], in_file.css("version"), in_file.css("build-number") ) )
+    puts "Correct version and build num!"
+else
+    puts "Incorrect version or build num!"
+end
+
 __END__

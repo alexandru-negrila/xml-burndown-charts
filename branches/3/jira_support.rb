@@ -60,7 +60,7 @@ def jira_sup_check_date(str_2_chk = "")
 
 end
 
-def jira_sup_check_issues(summ_node = [], issue_nodes = [] )
+def jira_sup_check_issues(summ_node = nil, issue_nodes = nil)
     if (summ_node[0]["total"].to_i == issue_nodes.length)
         result = 0
     else
@@ -70,6 +70,20 @@ def jira_sup_check_issues(summ_node = [], issue_nodes = [] )
     result
 end
 
-def jira_sup_check_build_info()
+def jira_sup_check_build_info(ver_comment = "", ver_node = nil, build_node = nil)
 
+    result = 0
+    
+    #get version and build from comment
+    ver_regex = Regexp.new('JIRA \(([0-9].[0-9].[0-9])#([0-9]*)')
+    ver_regex.match(ver_comment)
+    if (ver_node.text != $1)
+        result = (1 << 0)
+        puts "Version not matching!"
+    end
+    if (build_node.text != $2)
+        result = (1 << 1)
+        puts "Build no. not matching"
+    end
+    result
 end
