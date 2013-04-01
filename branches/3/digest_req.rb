@@ -27,7 +27,7 @@ in_file = Nokogiri::XML(open(dir+jira_resp_dir+jira_resp_file))
 
 puts in_file.css("title").text
 commts = []
-in_file.xpath("//comment()").each {|comment| commts << comment.to_s}
+in_file.xpath("//comment()").each {|comment_node| commts << comment_node.to_s}
 
 print "Found #{commts.length} comment node(s).\n"
 print "Comment class: #{commts[0].class} \n"
@@ -38,6 +38,12 @@ if (0 == jira_sup_check_date(commts[0]))
     puts "Date is correct!"
 else
     puts "Incorrect date!"
+end
+
+if (0 == jira_sup_check_issues(in_file.css("issue"), in_file.css("item")) )
+    puts "Issue count is correct!"
+else
+    puts "Incorrect issue count or nodes!"
 end
 
 __END__
