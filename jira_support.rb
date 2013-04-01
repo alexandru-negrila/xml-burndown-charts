@@ -1,5 +1,6 @@
 # file contain suuport functions for parsing and validating JIRA xml-reports
-
+require 'rubygems'
+require 'nokogiri'
 require 'Date'
 
 # validates date from JIRA xml-report comment
@@ -56,5 +57,19 @@ def jira_sup_check_date(str_2_chk = "")
     end
 
     result
+
+end
+
+def jira_sup_check_issues(summ_node = [], issue_nodes = [] )
+    if (summ_node[0]["total"].to_i == issue_nodes.length)
+        result = 0
+    else
+        result = 1
+    end
+    
+    result
+end
+
+def jira_sup_check_build_info()
 
 end
